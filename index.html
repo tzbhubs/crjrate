@@ -1,0 +1,262 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Rank Carly Rae Jepsen's Albums</title>
+  <style>
+    body {
+      font-family: 'Arial', sans-serif;
+      background: #fefefe;
+      padding: 2rem;
+      max-width: 700px;
+      margin: auto;
+    }
+    h1 {
+      text-align: center;
+      color: #db3eb1;
+    }
+    .album-list {
+      list-style: none;
+      padding: 0;
+    }
+    .album {
+      background: #f4f4f4;
+      margin: 0.5rem 0;
+      padding: 1rem;
+      border-radius: 6px;
+      cursor: grab;
+      border-left: 6px solid #db3eb1;
+    }
+    .album:hover {
+      background: #e9e9e9;
+    }
+    .prompt {
+      font-size: 0.9rem;
+      color: #666;
+      margin-top: 0.3rem;
+    }
+    .footer {
+      margin-top: 2rem;
+      text-align: center;
+      font-size: 0.85rem;
+      color: #999;
+    }
+  </style>
+</head>
+<body>
+  <h1>Rank Carly Rae Jepsen's Albums</h1>
+  <p style="text-align: center;">Drag and drop to rank her albums from favorite to least favorite!</p>
+
+  <ul class="album-list" id="albumList">
+    <li class="album" draggable="true">
+      <strong>Kiss (2012)</strong>
+      <div class="prompt">Where it all began — how many times did you replay "Call Me Maybe"?</div>
+    </li>
+    <li class="album" draggable="true">
+      <strong>Emotion (2015)</strong>
+      <div class="prompt">Synth-pop perfection — does this one still break your heart in the best way?</div>
+    </li>
+    <li class="album" draggable="true">
+      <strong>Emotion: Side B (2016)</strong>
+      <div class="prompt">The B-sides that felt like A-sides. Hidden gems or essential cuts?</div>
+    </li>
+    <li class="album" draggable="true">
+      <strong>Dedicated (2019)</strong>
+      <div class="prompt">Soft, groovy, romantic. Did this one take time to grow on you?</div>
+    </li>
+    <li class="album" draggable="true">
+      <strong>Dedicated Side B (2020)</strong>
+      <div class="prompt">Surprise drop! More than leftovers?</div>
+    </li>
+    <li class="album" draggable="true">
+      <strong>The Loneliest Time (2022)</strong>
+      <div class="prompt">Disco ball tears — what did this era mean to you?</div>
+    </li>
+    <li class="album" draggable="true">
+      <strong>The Loveliest Time (2023)</strong>
+      <div class="prompt">A brighter companion — or a spiritual sequel?</div>
+    </li>
+  </ul>
+
+  <div class="footer">
+    Built with love for Carly Rae Jepsen fans 💖
+  </div>
+
+  <script>
+    const list = document.getElementById('albumList');
+
+    let draggedItem = null;
+
+    list.addEventListener('dragstart', (e) => {
+      draggedItem = e.target;
+      e.dataTransfer.effectAllowed = 'move';
+    });
+
+    list.addEventListener('dragover', (e) => {
+      e.preventDefault();
+      const afterElement = getDragAfterElement(list, e.clientY);
+      if (afterElement == null) {
+        list.appendChild(draggedItem);
+      } else {
+        list.insertBefore(draggedItem, afterElement);
+      }
+    });
+
+    function getDragAfterElement(container, y) {
+      const draggableElements = [...container.querySelectorAll('.album:not(.dragging)')];
+
+      return draggableElements.reduce((closest, child) => {
+        const box = child.getBoundingClientRect();
+        const offset = y - box.top - box.height / 2;
+        if (offset < 0 && offset > closest.offset) {
+          return { offset: offset, element: child };
+        } else {
+          return closest;
+        }
+      }, { offset: Number.NEGATIVE_INFINITY }).element;
+    }
+  </script>
+</body>
+</html>
+🧠 How to Use It
+Copy the code above
+
+Paste it into an .html file (e.g., carly.html)
+
+Open in a browser
+
+Drag and drop the albums to rank them!
+
+Would you like:
+
+A version where you can save or share your ranking?
+
+Album art added next to each album?
+
+A hosted version (e.g., on GitHub Pages)?
+
+Let me know and I can help you expand it!
+
+
+
+You said:
+Yes, can you add being able to share your rating and the album art, please? A hosted version on github or a free site would be amazing, thank you!
+
+ChatGPT said:
+Absolutely! Here's an enhanced version of the ranking site that supports sharing your ranking and displays album art. I'll also guide you through hosting it live on GitHub Pages.
+
+✨ Enhanced Version
+This adds:
+
+🎨 Album artwork next to each album
+
+💾 A "Save Ranking" button that logs your order as a shareable URL (encoded in query params)
+
+🖱️ A "Copy Share Link" button for easy sharing
+
+html
+Copy
+Edit
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Rank Carly Rae Jepsen's Albums</title>
+  <style>
+    body { font-family: Arial, sans-serif; background: #fff; max-width: 800px; margin: auto; padding: 2rem; }
+    h1 { text-align: center; color: #db3eb1; }
+    .album-list { list-style: none; padding: 0; }
+    .album { display: flex; align-items: center; background: #f4f4f4; margin: .5rem 0; padding: .5rem; border-radius: 6px; cursor: grab; border-left: 6px solid #db3eb1; }
+    .album img { width: 60px; height: 60px; object-fit: cover; border-radius: 4px; margin-right: 1rem; }
+    .album-details { flex-grow: 1; }
+    .prompt { font-size: .85rem; color: #666; margin-top: .2rem; }
+    .controls { text-align: center; margin: 1rem 0; }
+    button { background: #db3eb1; color: white; border: none; padding: .8rem 1.2rem; font-size: 1rem; border-radius: 4px; cursor: pointer; margin: 0 .5rem; }
+    button:hover { background: #c12f9e; }
+    .footer { text-align: center; font-size: .85rem; color: #999; margin-top: 2rem; }
+    .share-link { width: 100%; padding: .5rem; font-size: .9rem; margin-top: .5rem; }
+  </style>
+</head>
+<body>
+  <h1>Rank Carly Rae Jepsen's Albums</h1>
+  <p style="text-align:center;">Drag, drop, and share your ranking with fans!</p>
+
+  <ul class="album-list" id="albumList">
+    ${[
+      { title: "Kiss", year: 2012, prompt: "How many times did you replay 'Call Me Maybe'?", img: "https://i.imgur.com/5c2mTgR.jpg" },
+      { title: "Emotion", year: 2015, prompt: "Synth‑pop perfection – heart‑breaker?", img: "https://i.imgur.com/dUMj4su.jpg" },
+      { title: "Emotion: Side B", year: 2016, prompt: "Hidden or essential?", img: "https://i.imgur.com/uAiDQHJ.jpg" },
+      { title: "Dedicated", year: 2019, prompt: "Soft, groovy, romantic?", img: "https://i.imgur.com/zG4OZur.jpg" },
+      { title: "Dedicated Side B", year: 2020, prompt: "More than leftovers?", img: "https://i.imgur.com/OkXPaDc.jpg" },
+      { title: "The Loneliest Time", year: 2022, prompt: "Disco‑ball tears – what did this era mean?", img: "https://i.imgur.com/iBq5GkQ.jpg" },
+      { title: "The Loveliest Time", year: 2023, prompt: "A brighter companion or sequel?", img: "https://i.imgur.com/njH8MEv.jpg" }
+    ].map(a => `
+      <li class="album" draggable="true" data-id="${a.title}">
+        <img src="${a.img}" alt="${a.title} album cover">
+        <div class="album-details">
+          <strong>${a.title} (${a.year})</strong>
+          <div class="prompt">${a.prompt}</div>
+        </div>
+      </li>
+    `).join("")}
+  </ul>
+
+  <div class="controls">
+    <button id="saveBtn">Save Ranking</button>
+    <button id="copyBtn" disabled>Copy Share Link</button><br>
+    <input type="text" id="shareLink" class="share-link" readonly placeholder="Your share URL will appear here">
+  </div>
+
+  <div class="footer">Built with love for Carly Rae Jepsen fans 💖</div>
+
+  <script>
+    const list = document.getElementById('albumList');
+    let dragged = null;
+
+    list.addEventListener('dragstart', e => { dragged = e.target; });
+    list.addEventListener('dragover', e => {
+      e.preventDefault();
+      const after = [...list.querySelectorAll('.album')]
+        .filter(el => el !== dragged)
+        .reduce((closest, child) => {
+          const box = child.getBoundingClientRect();
+          const offset = e.clientY - box.top - box.height / 2;
+          return offset < 0 && offset > closest.offset
+            ? { offset, element: child }
+            : closest;
+        }, { offset: -Infinity }).element;
+      list.insertBefore(dragged, after || null);
+    });
+
+    function generateLink() {
+      const ids = [...list.children].map(li => li.dataset.id);
+      const base = window.location.href.split('#')[0];
+      const url = base + '#' + encodeURIComponent(ids.join('|'));
+      return url;
+    }
+
+    document.getElementById('saveBtn').addEventListener('click', () => {
+      const link = generateLink();
+      document.getElementById('shareLink').value = link;
+      document.getElementById('copyBtn').disabled = false;
+    });
+
+    document.getElementById('copyBtn').addEventListener('click', () => {
+      navigator.clipboard.writeText(document.getElementById('shareLink').value);
+      alert('Link copied!');
+    });
+
+    window.addEventListener('load', () => {
+      if (window.location.hash) {
+        const ids = decodeURIComponent(window.location.hash.slice(1)).split('|');
+        ids.forEach(id => {
+          const li = list.querySelector(\`li[data-id="\${id}"]\`);
+          if (li) list.appendChild(li);
+        });
+      }
+    });
+  </script>
+</body>
+</html>
